@@ -1,0 +1,16 @@
+name: create_hotfix
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'バージョン'
+        required: true
+        default: 'x.x.x'
+
+jobs:
+  create_hotfix:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: ""
