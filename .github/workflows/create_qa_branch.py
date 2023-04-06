@@ -25,7 +25,7 @@ if code != 0:
     sys.exit(f'merge origin/{branch_prefix}/develop is failed')
 
 # Push [branch_prefix]/qa branch
-subprocess.call('git push origin `git rev-parse --abbrev-ref HEAD`', shell=True)
+subprocess.call(f'git push origin {branch_prefix}/qa', shell=True)
 subprocess.call(f'git branch -u origin/{branch_prefix}/qa', shell=True)
 
 print('Finish')
