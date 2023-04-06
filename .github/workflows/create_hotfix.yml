@@ -14,7 +14,7 @@ on:
 
 jobs:
   create_hotfix:
-    if: !(endsWith(${{github.event.inputs.base}}, '/qa') && !endsWith(${{github.event.inputs.head}}, '/develop'))
+    if: ${{ !(endsWith(github.event.inputs.base, '/qa') && !endsWith(github.event.inputs.head, '/develop')) }}
     runs-on: ubuntu-latest
     steps:
       - run: |
