@@ -3,14 +3,19 @@ name: create_hotfix
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'バージョン'
+      base:
+        description: 'BASE Branch'
         required: true
-        default: 'x.x.x'
+        default: ''
+      head:
+        description: 'HEAD Branch'
+        required: true
+        default: ''
 
 jobs:
   create_hotfix:
-    if: ${{ false }}
+    if: ${{ !(endsWith(github.event.inputs.base, '/qa') && !endsWith(github.event.inputs.head, '/develop')) }}
     runs-on: ubuntu-latest
     steps:
-      - run: ""
+      - run: |
+          echo 'do it'
