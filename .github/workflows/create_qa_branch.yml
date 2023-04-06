@@ -24,4 +24,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --local user.name "bot"
+          git config --local user.email bot@example.com
           python3 .github/workflows/create_qa_branch.py ${{github.event.inputs.branch_prefix}}
