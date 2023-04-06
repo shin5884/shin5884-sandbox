@@ -3,25 +3,19 @@ name: create_hotfix
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'バージョン'
+      base:
+        description: 'BASE Branch'
         required: true
-        default: 'x.x.x'
+        default: ''
+      head:
+        description: 'HEAD Branch'
+        required: true
+        default: ''
 
 jobs:
   create_hotfix:
+    if: !(endsWith(${{github.event.inputs.base}}, '/qa') && !endsWith(${{github.event.inputs.head}}, '/develop'))
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3
-      - name: set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - name: Create hotfix
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.name "bot"
-          git config --local user.email bot@example.com
-          python3 .github/workflows/create_hotfix.py ${{github.event.inputs.version}}
+      - run: |
+          echo 'do it'
