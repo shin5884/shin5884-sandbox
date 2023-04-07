@@ -6,7 +6,7 @@ on:
 
 jobs:
   chatbot_release_issue:
-    f: ${{ !github.event.issue.pull_request }}
+    if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - run: |
