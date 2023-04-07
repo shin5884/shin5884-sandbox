@@ -7,7 +7,9 @@ import re
 def post_comment(issue_number, content_path, version):
     with open(content_path) as f2:
         issue_template = f2.read()
-        subprocess.call(f'gh issue comment {issue_number} --body {issue_template}', shell=True)
+        print(f'gh issue comment {issue_number} --body {issue_template}')
+        result = subprocess.call(f'gh issue comment {issue_number} --body {issue_template}', shell=True)
+        print(f'result = {result}')
 
 print('Start')
 
