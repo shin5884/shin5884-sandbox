@@ -19,4 +19,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo ${{github.event.comment.body}}
           python3 .github/workflows/chatbot_release_issue.py ${{github.event.comment.body}}
