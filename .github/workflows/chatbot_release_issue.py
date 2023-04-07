@@ -5,6 +5,7 @@ import subprocess
 import re
 
 def post_comment(issue_number, body):
+    print(f'post_comment body = {body}')
     subprocess.call(f'gh issue comment {issue_number} --body "{body}"', shell=True)
 
 def post_planned_release_comment(issue_number, version):
