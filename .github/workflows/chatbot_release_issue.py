@@ -4,11 +4,29 @@ import sys
 import subprocess
 import re
 
-def post_comment(issue_number, content_path, version):
-    with open(content_path) as f2:
-        issue_template = f2.read()
-        result = subprocess.call(f'gh issue comment {issue_number} --body "{issue_template}"', shell=True)
-        print(f'result = {result}')
+def post_comment(issue_number, body):
+    subprocess.call(f'gh issue comment {issue_number} --body "{body}"', shell=True)
+
+def post_planned_release_comment(issue_number, version):
+    splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
+    current_major_version = int(splited[0][0])
+    current_minor_version = int(splited[0][1])
+    current_revision_version = int(splited[0][2])
+
+    next_version = str(current_major_version) + "." + str(current_minor_version) + "." + str(current_revision_version + 1)
+    next_versionCode = str(current_major_version * 100000 + current_minor_version * 1000 + (current_revision_version + 1) * 10)
+
+    next_next_version = str(current_major_version) + "." + str(current_minor_version) + "." + str(current_revision_version + 2)
+    next_next_versionCode = str(current_major_version * 100000 + current_minor_version * 1000 + (current_revision_version + 2) * 10)
+
+    with open('.github/ISSUE_TEMPLATE/planned_release.md') as f2:
+        template = f2.read()
+        body = template.format(next_next_version, next_version, next_next_versionCode, next_versionCode)
+        post_comment(issue_number, body)
+
+def post_hotfix_release_comment(issue_number, version):
+    with open('.github/ISSUE_TEMPLATE/hotfix_release.md') as f2:
+        template = f2.read()
 
 print('Start')
 
@@ -32,8 +50,8 @@ if len(re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)) != 1:
 
 # Post comment
 if release_type == 'planned':
-    post_comment(issue_number, '.github/ISSUE_TEMPLATE/planned_release.md', version)
+    post_planned_release_comment(issue_number, version)
 elif release_type == 'hotfix':
-    post_comment(issue_number, '.github/ISSUE_TEMPLATE/hotfix_release.md', version)
+    post_hotfix_release_comment(issue_number, version)
 
 print('Finish')
