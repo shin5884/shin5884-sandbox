@@ -22,6 +22,14 @@ def post_comment(issue_number, body):
     req = create_request(url, json.dumps(data).encode())
     urllib.request.urlopen(req)
 
+# v1.5.0のようにvがあれば除去して1.5.0にする
+def get_cleaned_version(version):
+    splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
+    major_version = int(splited[0][0])
+    minor_version = int(splited[0][1])
+    revision_version = int(splited[0][2])
+    return str(major_version) + "." + str(minor_version) + "." + str(revision_version + 1)
+
 def get_version_code(version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
     major_version = int(splited[0][0])
@@ -32,7 +40,7 @@ def get_version_code(version):
 def post_planned_release_comment(issue_number, current_version, prev_version):
     with open('.github/ISSUE_TEMPLATE/planned_release.md') as f2:
         template = f2.read()
-        body = template.format(current_version, get_version_code(current_version), prev_version, get_version_code(prev_version))
+        body = template.format(get_cleaned_version(current_version), get_cleaned_version(prev_version), get_version_code(current_version), get_version_code(prev_version))
         post_comment(issue_number, body)
 
 def post_hotfix_release_comment(issue_number, current_version, prev_version):
