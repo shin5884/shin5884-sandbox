@@ -64,8 +64,8 @@ issue_number = arguments[1]
 command, release_type, version = arguments[2].split(' ')
 print(f'command = {command}, release_type = {release_type}, version = {version}')
 
-if command != '/chatbot':
-    sys.exit('invalid command. please set /chatbot.')
+if command != '/action comment release flow':
+    sys.exit('invalid command. please set /action comment release flow.')
 
 if release_type not in ['planned', 'hotfix']:
     sys.exit('invalid release type. please set planned or hotfix.')

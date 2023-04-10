@@ -6,7 +6,7 @@ on:
 
 jobs:
   chatbot_release_issue:
-    if: ${{ !github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'release') && startsWith(github.event.comment.body, '/chatbot') }}
+    if: ${{ !github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'release') && startsWith(github.event.comment.body, '/action') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
