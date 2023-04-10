@@ -3,10 +3,24 @@
 import sys
 import subprocess
 import re
+import json
+import os
+import urllib.parse
+import urllib.request
+
+def create_request(url, data=None):
+    req = urllib.request.Request(url, data)
+    req.add_header('Authorization', f'token {GITHUB_TOKEN}')
+    return req
 
 def post_comment(issue_number, body):
     print(f'post_comment body = {body}')
-    subprocess.call(f'gh issue comment {issue_number} --body "```hoge```"', shell=True)
+    url = f"https://api.github.com/repos/eightcard/Sansan-Android/issues/{issue_number}/comments"
+    data = {
+        "body": body
+    }
+    req = create_request(url, json.dumps(data).encode())
+    urllib.request.urlopen(req)
 
 def post_planned_release_comment(issue_number, version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
