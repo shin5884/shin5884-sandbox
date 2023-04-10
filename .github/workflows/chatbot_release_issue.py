@@ -22,34 +22,23 @@ def post_comment(issue_number, body):
     req = create_request(url, json.dumps(data).encode())
     urllib.request.urlopen(req)
 
-def get_next_versions(version):
+def get_version_code(version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
-    current_major_version = int(splited[0][0])
-    current_minor_version = int(splited[0][1])
-    current_revision_version = int(splited[0][2])
+    major_version = int(splited[0][0])
+    minor_version = int(splited[0][1])
+    revision_version = int(splited[0][2])
+    return str(major_version * 100000 + minor_version * 1000 + (revision_version + 1) * 10)
 
-    next_version = str(current_major_version) + "." + str(current_minor_version) + "." + str(current_revision_version + 1)
-    next_versionCode = str(current_major_version * 100000 + current_minor_version * 1000 + (current_revision_version + 1) * 10)
-
-    next_next_version = str(current_major_version) + "." + str(current_minor_version) + "." + str(current_revision_version + 2)
-    next_next_versionCode = str(current_major_version * 100000 + current_minor_version * 1000 + (current_revision_version + 2) * 10)
-
-    return next_version, next_versionCode, next_next_version, next_next_versionCode
-
-def post_planned_release_comment(issue_number, version):
-    next_version, next_versionCode, next_next_version, next_next_versionCode = get_next_versions(version)
-
+def post_planned_release_comment(issue_number, current_version, prev_version):
     with open('.github/ISSUE_TEMPLATE/planned_release.md') as f2:
         template = f2.read()
-        body = template.format(next_next_version, next_version, next_next_versionCode, next_versionCode)
+        body = template.format(current_version, get_version_code(current_version), prev_version, get_version_code(prev_version))
         post_comment(issue_number, body)
 
-def post_hotfix_release_comment(issue_number, version):
-    next_version, next_versionCode, next_next_version, next_next_versionCode = get_next_versions(version)
-
+def post_hotfix_release_comment(issue_number, current_version, prev_version):
     with open('.github/ISSUE_TEMPLATE/hotfix_release.md') as f2:
         template = f2.read()
-        body = template.format(next_next_version, next_version, next_next_versionCode, next_versionCode)
+        body = template.format(current_version, get_version_code(current_version), prev_version, get_version_code(prev_version))
         post_comment(issue_number, body)
 
 print('Start')
@@ -60,8 +49,8 @@ if len(arguments) < 3:
     sys.exit('arguments is not found')
 
 issue_number = arguments[1]
-command, release_type, version = arguments[2].split(' ')
-print(f'command = {command}, release_type = {release_type}, version = {version}')
+command, release_type, current_version, prev_version = arguments[2].split(' ')
+print(f'command = {command}, release_type = {release_type}, version = {current_version}')
 
 if command != '/show-release-flow':
     sys.exit('invalid command. please set /action comment release flow.')
@@ -69,13 +58,16 @@ if command != '/show-release-flow':
 if release_type not in ['planned', 'hotfix']:
     sys.exit('invalid release type. please set planned or hotfix.')
 
-if len(re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)) != 1:
-    sys.exit('invalid version. please set like v1.2.3')
+if len(re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", current_version)) != 1:
+    sys.exit('invalid version. please set current version like v1.2.3')
+
+if len(re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", prev_version)) != 1:
+    sys.exit('invalid version. please set prev version like v1.2.3')
 
 # Post comment
 if release_type == 'planned':
-    post_planned_release_comment(issue_number, version)
+    post_planned_release_comment(issue_number, current_version, prev_version)
 elif release_type == 'hotfix':
-    post_hotfix_release_comment(issue_number, version)
+    post_hotfix_release_comment(issue_number, current_version, prev_version)
 
 print('Finish')
