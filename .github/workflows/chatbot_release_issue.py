@@ -6,7 +6,7 @@ import re
 
 def post_comment(issue_number, body):
     print(f'post_comment body = {body}')
-    subprocess.call(f'gh issue comment {issue_number} --body {repr(body)}', shell=True)
+    subprocess.call(f'gh issue comment {issue_number} --body "{body}"', shell=True)
 
 def post_planned_release_comment(issue_number, version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
