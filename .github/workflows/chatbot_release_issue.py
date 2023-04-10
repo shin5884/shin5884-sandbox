@@ -28,14 +28,14 @@ def get_cleaned_version(version):
     major_version = int(splited[0][0])
     minor_version = int(splited[0][1])
     revision_version = int(splited[0][2])
-    return str(major_version) + "." + str(minor_version) + "." + str(revision_version + 1)
+    return str(major_version) + "." + str(minor_version) + "." + str(revision_version)
 
 def get_version_code(version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
     major_version = int(splited[0][0])
     minor_version = int(splited[0][1])
     revision_version = int(splited[0][2])
-    return str(major_version * 100000 + minor_version * 1000 + (revision_version + 1) * 10)
+    return str(major_version * 100000 + minor_version * 1000 + (revision_version) * 10)
 
 def post_planned_release_comment(issue_number, current_version, prev_version):
     with open('.github/ISSUE_TEMPLATE/planned_release.md') as f2:
