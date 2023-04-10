@@ -8,6 +8,8 @@ import os
 import urllib.parse
 import urllib.request
 
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
+
 def create_request(url, data=None):
     req = urllib.request.Request(url, data)
     req.add_header('Authorization', f'token {GITHUB_TOKEN}')
