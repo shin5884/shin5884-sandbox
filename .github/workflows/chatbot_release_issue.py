@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import subprocess
 import re
 import json
 import os
@@ -24,7 +23,7 @@ def post_comment(issue_number, body):
     req = create_request(url, json.dumps(data).encode())
     urllib.request.urlopen(req)
 
-def post_planned_release_comment(issue_number, version):
+def get_next_versions(version):
     splited = re.findall(r"([0-9]+)\.([0-9]+)\.([0-9]+)", version)
     current_major_version = int(splited[0][0])
     current_minor_version = int(splited[0][1])
@@ -36,14 +35,23 @@ def post_planned_release_comment(issue_number, version):
     next_next_version = str(current_major_version) + "." + str(current_minor_version) + "." + str(current_revision_version + 2)
     next_next_versionCode = str(current_major_version * 100000 + current_minor_version * 1000 + (current_revision_version + 2) * 10)
 
+    return next_version, next_versionCode, next_next_version, next_next_versionCode
+
+def post_planned_release_comment(issue_number, version):
+    next_version, next_versionCode, next_next_version, next_next_versionCode = get_next_versions(version)
+
     with open('.github/ISSUE_TEMPLATE/planned_release.md') as f2:
         template = f2.read()
         body = template.format(next_next_version, next_version, next_next_versionCode, next_versionCode)
         post_comment(issue_number, body)
 
 def post_hotfix_release_comment(issue_number, version):
+    next_version, next_versionCode, next_next_version, next_next_versionCode = get_next_versions(version)
+
     with open('.github/ISSUE_TEMPLATE/hotfix_release.md') as f2:
         template = f2.read()
+        body = template.format(next_next_version, next_version, next_next_versionCode, next_versionCode)
+        post_comment(issue_number, body)
 
 print('Start')
 
