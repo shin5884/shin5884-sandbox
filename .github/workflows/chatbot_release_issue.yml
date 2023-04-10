@@ -6,7 +6,7 @@ on:
 
 jobs:
   chatbot_release_issue:
-    if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/chatbot') }}
+    if: ${{ !github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'release') && startsWith(github.event.comment.body, '/chatbot') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -19,5 +19,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo ${{toJSON(github.event)}}
           python3 .github/workflows/chatbot_release_issue.py ${{github.event.issue.number}} '${{github.event.comment.body}}'
