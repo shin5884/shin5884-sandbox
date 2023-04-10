@@ -4,7 +4,6 @@ import sys
 import re
 import json
 import os
-import urllib.parse
 import urllib.request
 
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
