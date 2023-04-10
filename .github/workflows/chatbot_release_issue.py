@@ -17,7 +17,7 @@ def create_request(url, data=None):
 
 def post_comment(issue_number, body):
     print(f'post_comment body = {body}')
-    url = f"https://api.github.com/repos/eightcard/Sansan-Android/issues/{issue_number}/comments"
+    url = f"https://api.github.com/repos/shin5884/shin5884-sandbox/issues/{issue_number}/comments"
     data = {
         "body": body
     }
