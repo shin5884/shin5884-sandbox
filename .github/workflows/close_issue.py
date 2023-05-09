@@ -34,7 +34,7 @@ def get_release_issue_number():
         for issue in issues:
             title = issue['title']
             number = issue['number']
-            isPr = issue['pull_request'] != None
+            isPr = 'pull_request' in issue
             print(f'title={title}, number={number}, isPr={isPr}')
 
         # 次のページが無いならbreak
