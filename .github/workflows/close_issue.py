@@ -32,10 +32,10 @@ def get_release_issue_number():
     while True:
         issues = get_open_issues(page)
         for issue in issues:
-        title = issue['title']
-        number = issue['number']
-        isPr = issue['pull_request'] != None
-        print(f'title={title}, number={number}, isPr={isPr}')
+            title = issue['title']
+            number = issue['number']
+            isPr = issue['pull_request'] != None
+            print(f'title={title}, number={number}, isPr={isPr}')
 
         # 次のページが無いならbreak
         if len(issues) != PER_PAGE:
