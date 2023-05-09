@@ -19,7 +19,7 @@ def create_request(url, data=None):
 
 
 def get_open_issues(page):
-    url = f"https://api.github.com/shin5884/shin5884-sandbox/issues?state=open&page={page}&per_page={PER_PAGE}&labels=release"
+    url = f"https://api.github.com/shin5884/shin5884-sandbox/issues?state=open&page={page}&per_page={PER_PAGE}"
     req = create_request(url)
     with urllib.request.urlopen(req) as res:
         issues = json.load(res)
