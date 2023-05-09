@@ -12,12 +12,12 @@ VERSION = os.environ.get('INPUT_VERSION')
 PER_PAGE = 30
 
 
-# def create_request(url, data=None):
-#     req = urllib.request.Request(url, data)
-#     req.add_header('Authorization', f'token {GITHUB_TOKEN}')
-#     return req
-#
-#
+def create_request(url, data=None):
+    req = urllib.request.Request(url, data)
+    req.add_header('Authorization', f'token {GITHUB_TOKEN}')
+    return req
+
+
 def get_open_issues(page):
     url = f"https://api.github.com/shin5884/shin5884-sandbox/issues?state=open&page={page}&per_page={PER_PAGE}&labels=release"
     req = create_request(url)
