@@ -9,7 +9,7 @@ print('\n------Create PR-------')
 release_ver = '9.10.0'
 pr_title = f'{release_ver}リリースブランチ'
 pr_body = f'レビュー対象はBump version to {release_ver}のコミットからです。\n'
-command = f'gh pr create --title "{pr_title}" --body "{pr_body}" --label release --draft'
+command = f'gh pr create --title "{pr_title}" --body "{pr_body}" --base master --label release --draft'
 proc = subprocess.Popen(command,
                         shell=True,
                         stdin = subprocess.PIPE,
