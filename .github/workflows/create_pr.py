@@ -6,9 +6,9 @@ import re
 
 # Create master merge PR
 print('\n------Create PR-------')
-pr_title = f'ghでPRを作成するテスト'
-pr_body = f'PRを作成しました。\n'
-command = f'gh pr create --title ${pr_title} --body R{pr_body}'
+pr_title = 'ghでPRを作成するテスト'
+pr_body = 'PRを作成しました。'
+command = f'gh pr create --title ${pr_title} --body R{pr_body} --draft'
 proc = subprocess.Popen(command,
                         shell=True,
                         stdin = subprocess.PIPE,
