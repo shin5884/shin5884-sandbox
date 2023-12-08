@@ -6,9 +6,10 @@ import re
 
 # Create master merge PR
 print('\n------Create PR-------')
-pr_title = 'ghでPRを作成するテスト'
-pr_body = 'PRを作成しました。'
-command = f'gh pr create --title ${pr_title} --body R{pr_body} --draft'
+release_ver = '9.10.0'
+pr_title = f'${release_ver}リリースブランチ'
+pr_body = f'レビュー対象はBump version to {release_ver}のコミットからです。\n'
+command = f'gh pr create --title ${pr_title} --body R{pr_body} --label release --draft'
 proc = subprocess.Popen(command,
                         shell=True,
                         stdin = subprocess.PIPE,
