@@ -1,0 +1,20 @@
+name: create_pr
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 .github/workflows/create_pr.py

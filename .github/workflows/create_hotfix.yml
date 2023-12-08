@@ -1,0 +1,21 @@
+name: create_hotfix
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'BASE Branch'
+        required: true
+        default: ''
+      head:
+        description: 'HEAD Branch'
+        required: true
+        default: ''
+
+jobs:
+  create_hotfix:
+    if: ${{ !(endsWith(github.event.inputs.base, '/qa') && !endsWith(github.event.inputs.head, '/develop')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'do it'

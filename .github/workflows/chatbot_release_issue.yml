@@ -1,0 +1,22 @@
+name: chatbot_release_issue
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  chatbot_release_issue:
+    if: ${{ !github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'release') && startsWith(github.event.comment.body, '/show-release-flow') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Reply comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 .github/workflows/chatbot_release_issue.py ${{github.event.issue.number}} '${{github.event.comment.body}}'

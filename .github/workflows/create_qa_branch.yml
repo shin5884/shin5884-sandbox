@@ -1,0 +1,30 @@
+name: create_qa_branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_prefix:
+        description: '*/developから*/qaを生やすための * を指定する'
+        required: true
+        default: ''
+
+jobs:
+  create_qa_branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: 'develop'
+      - name: set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Create qa branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.name "bot"
+          git config --local user.email bot@example.com
+          python3 .github/workflows/create_qa_branch.py ${{github.event.inputs.branch_prefix}}

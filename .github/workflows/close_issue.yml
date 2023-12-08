@@ -1,0 +1,25 @@
+name: close_issue
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: ''
+
+jobs:
+  close_issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Close Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 .github/workflows/close_issue.py
